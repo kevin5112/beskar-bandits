@@ -99,7 +99,7 @@ Access rules (Supabase row-level security):
 |---|---|
 | `/` | Hero + brand, next-game countdown, latest result, latest news, recent photos strip |
 | `/schedule` | Season game list with dates/times/fields/scores; links to game pages |
-| `/games/[id]` | Final score, full box score, RSVP tally, game album, YouTube embeds |
+| `/games/[id]` | Final score, full box score, game album, YouTube embeds (RSVP tally shown only when logged in) |
 | `/stats` | Sortable season table (per-player totals + AVG), team record header |
 | `/roster` | Player cards → `/roster/[id]` with profile + game-by-game stat log |
 | `/news` + `/news/[slug]` | Post list and post pages with comments (visible to all, writable by logged-in) |
