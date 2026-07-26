@@ -13,9 +13,13 @@ function ToastInner() {
     if (!label) return;
     setMsg(label);
     router.replace(pathname, { scroll: false });
+  }, [params, pathname, router]);
+
+  useEffect(() => {
+    if (!msg) return;
     const t = setTimeout(() => setMsg(null), 3500);
     return () => clearTimeout(t);
-  }, [params, pathname, router]);
+  }, [msg]);
 
   if (!msg) return null;
   return (

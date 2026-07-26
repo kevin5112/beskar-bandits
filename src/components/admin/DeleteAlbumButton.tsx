@@ -19,7 +19,7 @@ export default function DeleteAlbumButton({ albumId, title, photoCount }: { albu
     <button
       onClick={onClick}
       disabled={isPending}
-      className={`min-h-11 rounded border border-steel-700 px-3 text-sm text-steel-400 hover:border-red-500 hover:text-red-400 ${isPending ? "molten-pending" : ""}`}>
+      className={`min-h-11 rounded border border-steel-700 px-3 text-sm text-steel-400 hover:border-error-500 hover:text-error-400 ${isPending ? "molten-pending" : ""}`}>
       {isPending ? "Deleting…" : "Delete album"}
     </button>
   );
