@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatGameDay, formatGameTime, formatRecord } from "../src/lib/format";
+import { easternToIso, formatGameDay, formatGameTime, formatRecord } from "../src/lib/format";
 
 // 2026-08-07T23:30:00Z == Aug 7 2026, 7:30 PM EDT
 const iso = "2026-08-07T23:30:00.000Z";
@@ -19,4 +19,11 @@ describe("formatGameDay/Time", () => {
 describe("formatRecord", () => {
   it("omits ties when zero", () => expect(formatRecord(12, 3, 0)).toBe("12-3"));
   it("includes ties when present", () => expect(formatRecord(12, 3, 1)).toBe("12-3-1"));
+});
+
+it("converts summer Eastern wall time to UTC", () => {
+  expect(easternToIso("2026-08-07", "19:30")).toBe("2026-08-07T23:30:00.000Z");
+});
+it("converts winter Eastern wall time to UTC", () => {
+  expect(easternToIso("2026-01-09", "19:30")).toBe("2026-01-10T00:30:00.000Z");
 });
