@@ -4,7 +4,7 @@ import { formatRecord } from "@/lib/format";
 import { EmptyState, PageTitle } from "@/components/ui";
 import StatsTable from "@/components/StatsTable";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata = { title: "Stats" };
 

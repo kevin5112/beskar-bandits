@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AdminLink from "@/components/AdminLink";
 
 const items = [
   ["/roster", "Roster"], ["/news", "News"], ["/highlights", "Highlights"], ["/login", "Admin sign in"],
@@ -14,6 +15,9 @@ export default function MorePage() {
             <Link href={href} className="block min-h-11 px-4 py-3 text-steel-100 hover:text-gold-400">{label}</Link>
           </li>
         ))}
+        <li className="px-4 py-3">
+          <AdminLink />
+        </li>
       </ul>
     </div>
   );

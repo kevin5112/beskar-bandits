@@ -2,7 +2,7 @@ import { getGames } from "@/lib/queries";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export const metadata = { title: "Schedule" };
 

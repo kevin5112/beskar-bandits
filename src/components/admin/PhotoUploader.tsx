@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import imageCompression from "browser-image-compression";
 import { createClient } from "@/lib/supabase/client";
+import { refreshPublicContent } from "@/app/admin/actions";
 
 export default function PhotoUploader({ albumId }: { albumId: string }) {
   const router = useRouter();
@@ -29,6 +30,7 @@ export default function PhotoUploader({ albumId }: { albumId: string }) {
     }
     setStatus("Done!");
     if (fileRef.current) fileRef.current.value = "";
+    await refreshPublicContent();
     router.refresh();
   }
 

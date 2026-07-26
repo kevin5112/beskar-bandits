@@ -6,7 +6,7 @@ import { Card, EmptyState, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
 import Countdown from "@/components/Countdown";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function Home() {
   const [games, next, latest, news, photos] = await Promise.all([

@@ -3,7 +3,7 @@ import { getAlbum, photoUrl } from "@/lib/queries";
 import { EmptyState, PageTitle } from "@/components/ui";
 import PhotoGrid from "@/components/PhotoGrid";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function AlbumPage({ params }: { params: Promise<{ albumId: string }> }) {
   const { albumId } = await params;

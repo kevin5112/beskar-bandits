@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AdminLink from "@/components/AdminLink";
 
 const links = [
   ["/schedule", "Schedule"], ["/stats", "Stats"], ["/roster", "Roster"],
@@ -18,6 +19,7 @@ export default function SiteHeader() {
               {label}
             </Link>
           ))}
+          <AdminLink />
         </nav>
       </div>
     </header>

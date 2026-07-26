@@ -122,3 +122,8 @@ export async function deletePhoto(formData: FormData) {
   if (storageError) throw storageError;
   revalidatePath("/", "layout");
 }
+
+export async function refreshPublicContent() {
+  await requireAdmin();
+  revalidatePath("/", "layout");
+}
