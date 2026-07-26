@@ -45,17 +45,17 @@ describe("computeSeasonStats", () => {
   });
   it("sums every field across games without transposing accumulators", () => {
     const rows = computeSeasonStats([
-      line({ r: 1, doubles: 1, triples: 0, hr: 2, rbi: 3, bb: 1, k: 0 }),
-      line({ r: 2, doubles: 0, triples: 1, hr: 1, rbi: 1, bb: 1, k: 2 }),
+      line({ r: 1, doubles: 2, triples: 3, hr: 4, rbi: 5, bb: 6, k: 7 }),
+      line({ r: 1, doubles: 1, triples: 1, hr: 1, rbi: 1, bb: 1, k: 1 }),
     ]);
     const p1 = rows.find((r) => r.player_id === "p1")!;
-    expect(p1.r).toBe(3);
-    expect(p1.doubles).toBe(1);
-    expect(p1.triples).toBe(1);
-    expect(p1.hr).toBe(3);
-    expect(p1.rbi).toBe(4);
-    expect(p1.bb).toBe(2);
-    expect(p1.k).toBe(2);
+    expect(p1.r).toBe(2);
+    expect(p1.doubles).toBe(3);
+    expect(p1.triples).toBe(4);
+    expect(p1.hr).toBe(5);
+    expect(p1.rbi).toBe(6);
+    expect(p1.bb).toBe(7);
+    expect(p1.k).toBe(8);
   });
 });
 
