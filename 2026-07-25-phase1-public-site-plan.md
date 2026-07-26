@@ -19,7 +19,7 @@
 - Mobile-first: style for phone width by default, adapt upward with `md:`/`lg:` only. Tap targets ≥ 44px (`min-h-11`). No pinch-zoom tables — wide tables get `overflow-x-auto` wrappers with a sticky first column.
 - Colors/fonts only via the Tailwind theme tokens defined in Task 1 — no hex values in components.
 - All game times display in `America/New_York` regardless of viewer timezone.
-- No Star Wars / Disney IP anywhere, **including seed data** (no character names, no park land names).
+- No Star Wars / Disney IP anywhere, **including seed data** (no character names, no park land names, **no verbatim franchise catchphrases in copy** — e.g. "This is the way"). The word "beskar" alone is allowed: it's the team's name. (Ruling by Kevin, 2026-07-25.)
 - Empty states: every list page renders a friendly message when there's no data, never a blank screen.
 - Dev server checks use the app preview browser at phone size (390px) first, then desktop.
 
@@ -110,7 +110,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: { default: "Beskar Bandits", template: "%s | Beskar Bandits" },
-  description: "Coed softball. Forged in beskar. Schedule, stats, and highlights.",
+  description: "Coed softball. Schedule, stats, photos, and highlights for the Beskar Bandits.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -217,7 +217,7 @@ export default function Home() {
   return (
     <div className="py-10">
       <h1 className="font-display text-3xl font-bold uppercase tracking-widest text-gold-400">Beskar Bandits</h1>
-      <p className="mt-2 text-steel-400">Site under construction. This is the way.</p>
+      <p className="mt-2 text-steel-400">Site under construction. Fresh steel incoming.</p>
     </div>
   );
 }
