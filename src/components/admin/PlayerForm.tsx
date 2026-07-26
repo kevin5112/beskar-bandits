@@ -5,7 +5,9 @@ export const inputCls = "min-h-11 w-full rounded border border-steel-700 bg-stee
 export const labelCls = "block text-xs font-display uppercase tracking-wider text-steel-400 mb-1";
 export const btnCls = "min-h-11 rounded bg-gold-500 px-4 font-display font-bold uppercase tracking-wider text-steel-950";
 
-export default function PlayerForm({ player }: { player?: Player }) {
+type LinkableProfile = { id: string; display_name: string; linkedPlayerId: string | null };
+
+export default function PlayerForm({ player, profiles }: { player?: Player; profiles?: LinkableProfile[] }) {
   return (
     <form action={savePlayer} className="grid gap-3 md:grid-cols-2">
       {player && <input type="hidden" name="id" value={player.id} />}
@@ -14,6 +16,19 @@ export default function PlayerForm({ player }: { player?: Player }) {
       <div><label className={labelCls}>Positions (comma-sep)</label><input name="positions" defaultValue={player?.positions.join(", ")} className={inputCls} /></div>
       <div><label className={labelCls}>Walk-up song</label><input name="walkup_song" defaultValue={player?.walkup_song ?? ""} className={inputCls} /></div>
       <div className="md:col-span-2"><label className={labelCls}>Bio</label><textarea name="bio" rows={2} defaultValue={player?.bio ?? ""} className={inputCls + " py-2"} /></div>
+      {profiles && (
+        <div>
+          <label className={labelCls}>Linked account</label>
+          <select name="profile_id" defaultValue={player?.profile_id ?? ""} className={inputCls}>
+            <option value="">— no account —</option>
+            {profiles
+              .filter((p) => p.linkedPlayerId === null || p.linkedPlayerId === player?.id)
+              .map((p) => (
+                <option key={p.id} value={p.id}>{p.display_name}</option>
+              ))}
+          </select>
+        </div>
+      )}
       <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" name="active" defaultChecked={player?.active ?? true} className="h-5 w-5" /> Active</label>
       <div className="md:col-span-2"><button className={btnCls}>{player ? "Save player" : "Add player"}</button></div>
     </form>

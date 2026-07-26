@@ -18,6 +18,7 @@ export async function savePlayer(formData: FormData) {
     bio: str(formData, "bio") || null,
     walkup_song: str(formData, "walkup_song") || null,
     active: formData.get("active") === "on",
+    ...(formData.has("profile_id") ? { profile_id: str(formData, "profile_id") || null } : {}),
   };
   const { error } = id
     ? await supabase.from("players").update(row).eq("id", id)
@@ -135,6 +136,35 @@ export async function deletePhoto(formData: FormData) {
   const { error: storageError } = await supabase.storage.from("photos").remove([path]);
   if (storageError) throw storageError;
   revalidatePath("/", "layout");
+}
+
+export async function setProfileRole(formData: FormData) {
+  const { supabase, user } = await requireAdmin();
+  const profileId = str(formData, "profile_id");
+  const role = str(formData, "role");
+  if (role !== "admin" && role !== "player") throw new Error("Invalid role.");
+  if (profileId === user.id && role === "player") {
+    throw new Error("You can't demote yourself — ask another admin.");
+  }
+  const { error } = await supabase.from("profiles").update({ role }).eq("id", profileId);
+  if (error) throw error;
+  revalidatePath("/", "layout");
+  redirect("/admin/players");
+}
+
+export async function linkPlayerProfile(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const playerId = str(formData, "player_id");
+  const profileId = str(formData, "profile_id") || null;
+  const { error } = await supabase.from("players").update({ profile_id: profileId }).eq("id", playerId);
+  if (error) {
+    if ((error as { code?: string }).code === "23505") {
+      throw new Error("That account is already linked to another player.");
+    }
+    throw error;
+  }
+  revalidatePath("/", "layout");
+  redirect("/admin/players");
 }
 
 export async function refreshPublicContent() {
