@@ -80,3 +80,37 @@ export async function saveBoxScore(formData: FormData) {
   revalidatePath("/", "layout");
   redirect(`/admin/games/${gameId}`);
 }
+
+export async function saveNewsPost(formData: FormData) {
+  const { supabase, user } = await requireAdmin();
+  const id = str(formData, "id");
+  const title = str(formData, "title");
+  const slug = (str(formData, "slug") || title).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const row = { title, slug, body: str(formData, "body"), author_profile_id: user.id };
+  const { error } = id
+    ? await supabase.from("news_posts").update(row).eq("id", id)
+    : await supabase.from("news_posts").insert(row);
+  if (error) throw error;
+  revalidatePath("/", "layout");
+  redirect("/admin/news");
+}
+
+export async function saveAlbum(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const gameId = str(formData, "game_id");
+  const { error } = await supabase.from("albums").insert({ title: str(formData, "title"), game_id: gameId || null });
+  if (error) throw error;
+  revalidatePath("/", "layout");
+  redirect("/admin/photos");
+}
+
+export async function deletePhoto(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const id = str(formData, "id");
+  const path = str(formData, "storage_path");
+  const { error: dbError } = await supabase.from("photos").delete().eq("id", id);
+  if (dbError) throw dbError;
+  const { error: storageError } = await supabase.storage.from("photos").remove([path]);
+  if (storageError) throw storageError;
+  revalidatePath("/", "layout");
+}
