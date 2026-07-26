@@ -112,7 +112,7 @@ Access rules (Supabase row-level security):
 
 - RSVP controls (In / Out / Maybe) on upcoming games with live tally.
 - `/me` — edit own profile: photo, bio, walk-up song.
-- Photo upload into albums.
+- Photo upload into albums — **player uploads land as `pending` and are publicly visible only after an admin approves them** (moderation queue in the admin panel; `approved` flag on `photos`, public read policy filters to approved, admin uploads auto-approve). Decided 2026-07-26.
 - Comment forms on games and news posts.
 
 ### Admin (`/admin`, admin role required)
@@ -168,7 +168,9 @@ Future ideas (explicitly out of scope for now): realtime team chat via Supabase 
 
 ## Privacy & Legal Notes
 
-- Roster names, photos, and stats are public on the internet. Team gets a heads-up before launch; players who prefer can use first name + last initial and/or skip the photo.
+- Roster names, photos, and stats are public on the internet. Team gets a heads-up before launch; players who prefer can use first name + last initial and/or skip the photo. Target audience includes the broader cast-member league community, so treat visibility as high.
+- **Photo content rule**: field and dugout shots only — never backstage areas or costumed cast members (Disney policy exposure). Stated on the admin upload page; enforced socially plus by the Phase 3 approval queue.
+- Site-wide toggles (e.g., the pre-launch teaser banner) live in a `site_settings` table (public read, admin write) so they can be flipped without a deploy.
 - RSVPs and the who's-in tally are login-only.
 - No Disney/Star Wars IP anywhere on the site (see Design).
 
