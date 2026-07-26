@@ -13,3 +13,6 @@ build/
 .DS_Store
 *.log
 .vercel
+
+# SDD scratch (ledger, briefs, reports)
+.superpowers/
