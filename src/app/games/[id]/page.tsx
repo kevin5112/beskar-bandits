@@ -7,6 +7,8 @@ import { ResultBadge } from "@/components/GameScoreLine";
 import BoxScoreTable from "@/components/BoxScoreTable";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 
+export const dynamic = "force-dynamic";
+
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const game = await getGame(id);

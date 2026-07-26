@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getRoster } from "@/lib/queries";
 import { Card, EmptyState, PageTitle } from "@/components/ui";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Roster" };
 
 export default async function RosterPage() {

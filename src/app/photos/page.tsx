@@ -3,6 +3,8 @@ import { getAlbums } from "@/lib/queries";
 import { Card, EmptyState, PageTitle } from "@/components/ui";
 import { formatGameDay } from "@/lib/format";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Photos" };
 
 export default async function PhotosPage() {

@@ -4,6 +4,8 @@ import { getNewsPost } from "@/lib/queries";
 import { PageTitle } from "@/components/ui";
 import { formatGameDay } from "@/lib/format";
 
+export const dynamic = "force-dynamic";
+
 export default async function NewsPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await getNewsPost(slug);

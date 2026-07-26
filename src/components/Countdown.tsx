@@ -10,10 +10,26 @@ function parts(msLeft: number) {
 
 export default function Countdown({ startsAt }: { startsAt: string }) {
   const [now, setNow] = useState(() => Date.now());
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
+    setMounted(true);
     const t = setInterval(() => setNow(Date.now()), 30_000);
     return () => clearInterval(t);
   }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex gap-4">
+        {["days", "hrs", "min"].map((label) => (
+          <div key={label} className="text-center">
+            <p className="font-display text-3xl font-bold text-gold-400">—</p>
+            <p className="text-xs uppercase tracking-wider text-steel-400">{label}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const left = new Date(startsAt).getTime() - now;
   if (left <= 0) return <p className="font-display text-gold-400">Game time!</p>;
   const { d, h, m } = parts(left);

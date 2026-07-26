@@ -5,6 +5,8 @@ import { battingAvg, computeSeasonStats } from "@/lib/stats";
 import { formatGameDay } from "@/lib/format";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
 
+export const dynamic = "force-dynamic";
+
 export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const player = await getPlayer(id);
