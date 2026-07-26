@@ -18,6 +18,8 @@ This is a personal project — completely separate from Easy Street Capital work
 4. Players engage through RSVPs, profiles, photos, and comments.
 5. Free to run (only optional cost: a custom domain, ~$12/yr).
 6. Kevin learns Next.js along the way.
+7. **Mobile-first**: most of the team will use the site from their phones — every page is designed for the phone screen first, desktop second.
+8. Site traffic is visible to Kevin (page views, visitors, what's popular) via free analytics.
 
 ## Users & Roles
 
@@ -129,6 +131,18 @@ Original Mandalorian-*inspired* theme — no Star Wars or Disney logos, fonts, a
 - Brushed-metal textures, angular panel shapes, custom "beskar ingot" motif for stat cards and jersey numbers.
 - Original iconography only.
 
+### Mobile-first (priority requirement)
+
+Most traffic will be phones — teammates checking scores from the field, RSVPing from the couch. Concretely:
+
+- Every page is designed at phone width first; desktop is the adaptation, not the other way around.
+- Thumb-friendly tap targets (44px minimum) for RSVP buttons, nav, and admin forms.
+- Box scores and stat tables get a dedicated small-screen treatment (sticky player column + horizontal scroll, or card layout) — never a pinch-zoom desktop table.
+- Bottom-of-screen navigation on mobile for the core pages (Home, Schedule, Stats, Photos).
+- Fast on cellular: Next.js image optimization, lazy-loaded photos, YouTube embeds load on tap (facade pattern) instead of at page load.
+- The box-score entry grid in the admin panel must be usable on a phone — scores get entered from the parking lot, not a desk.
+- Accessibility basics throughout: sufficient contrast on the dark theme, semantic HTML, alt text on photos, keyboard navigability.
+
 ## Build Phases
 
 | Phase | Ships | Site state after |
@@ -139,10 +153,16 @@ Original Mandalorian-*inspired* theme — no Star Wars or Disney logos, fonts, a
 
 Future ideas (explicitly out of scope for now): realtime team chat via Supabase Realtime (comments cover banter initially), custom domain, league standings, game reminders/notifications.
 
+## Analytics
+
+- **Vercel Web Analytics** (free tier), enabled at first deploy. Shows page views, unique visitors, top pages, referrers, device breakdown, and countries — right in the Vercel dashboard Kevin already uses for deploys.
+- Privacy-friendly (no cookies), so no cookie-consent banner is needed.
+- If deeper analysis is ever wanted (user flows, retention), Google Analytics 4 can be added later as a free upgrade path; not planned now.
+
 ## Testing & Error Handling
 
 - Unit tests on stat-rollup logic (AVG and totals derivations) — the one place a math bug is publicly embarrassing.
-- Manual walkthrough per phase for everything else.
+- Manual walkthrough per phase for everything else, on **both a phone-sized viewport and desktop** — mobile is the primary target.
 - Friendly empty states everywhere ("No games yet — season starts soon") since the site launches data-sparse.
 - Photo uploads: client-side compression/resizing before upload to protect the 1GB free storage tier; reject non-image files.
 
@@ -159,4 +179,5 @@ Future ideas (explicitly out of scope for now): realtime team chat via Supabase 
 | GitHub (private repo) | $0 |
 | Vercel Hobby | $0 |
 | Supabase free tier (500MB DB, 1GB storage) | $0 |
+| Vercel Web Analytics (free tier) | $0 |
 | Custom domain (optional) | ~$12/yr |
