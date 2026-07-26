@@ -27,7 +27,7 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
       <p className="mt-1 text-sm text-steel-400">{formatGameDay(game.starts_at)} · {formatGameTime(game.starts_at)} · {game.location}</p>
 
       <Card className="mt-4 flex items-center justify-center gap-4">
-        {game.status === "final" && game.our_score !== null ? (
+        {game.status === "final" && game.our_score !== null && game.their_score !== null ? (
           <>
             <span className="font-display text-5xl font-bold text-gold-400">{game.our_score}</span>
             <span className="text-steel-400">–</span>
@@ -36,6 +36,8 @@ export default async function GamePage({ params }: { params: Promise<{ id: strin
           </>
         ) : game.status === "canceled" ? (
           <span className="font-display uppercase tracking-widest text-steel-400">Canceled</span>
+        ) : game.status === "final" ? (
+          <span className="font-display uppercase tracking-widest text-steel-400">Final</span>
         ) : (
           <span className="font-display uppercase tracking-widest text-steel-400">Upcoming</span>
         )}

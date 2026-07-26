@@ -77,7 +77,7 @@ export async function getPlayerGameLog(playerId: string) {
 
 export async function getNewsPosts(limit?: number): Promise<NewsPost[]> {
   let q = db().from("news_posts").select("*").order("published_at", { ascending: false });
-  if (limit) q = q.limit(limit);
+  if (limit !== undefined) q = q.limit(limit);
   const { data, error } = await q;
   if (error) throw error;
   return data;

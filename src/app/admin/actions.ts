@@ -23,7 +23,12 @@ export async function savePlayer(formData: FormData) {
   const { error } = id
     ? await supabase.from("players").update(row).eq("id", id)
     : await supabase.from("players").insert(row);
-  if (error) throw error;
+  if (error) {
+    if ((error as { code?: string }).code === "23505") {
+      throw new Error("That account is already linked to another player.");
+    }
+    throw error;
+  }
   revalidatePath("/", "layout");
   redirect("/admin/players");
 }
@@ -134,7 +139,7 @@ export async function deletePhoto(formData: FormData) {
   const { error: dbError } = await supabase.from("photos").delete().eq("id", id);
   if (dbError) throw dbError;
   const { error: storageError } = await supabase.storage.from("photos").remove([path]);
-  if (storageError) throw storageError;
+  if (storageError) console.error("Photo storage cleanup failed:", storageError);
   revalidatePath("/", "layout");
 }
 
@@ -148,21 +153,6 @@ export async function setProfileRole(formData: FormData) {
   }
   const { error } = await supabase.from("profiles").update({ role }).eq("id", profileId);
   if (error) throw error;
-  revalidatePath("/", "layout");
-  redirect("/admin/players");
-}
-
-export async function linkPlayerProfile(formData: FormData) {
-  const { supabase } = await requireAdmin();
-  const playerId = str(formData, "player_id");
-  const profileId = str(formData, "profile_id") || null;
-  const { error } = await supabase.from("players").update({ profile_id: profileId }).eq("id", playerId);
-  if (error) {
-    if ((error as { code?: string }).code === "23505") {
-      throw new Error("That account is already linked to another player.");
-    }
-    throw error;
-  }
   revalidatePath("/", "layout");
   redirect("/admin/players");
 }

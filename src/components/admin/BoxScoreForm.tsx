@@ -30,6 +30,7 @@ export default function BoxScoreForm({ gameId, players, lines, ourScore, theirSc
                   <td className="sticky left-0 bg-steel-900 px-3 py-1 whitespace-nowrap">
                     <input type="hidden" name="player_id" value={p.id} />
                     <span className="text-steel-400">{p.jersey_number ?? "–"}</span> {p.name}
+                    {p.active === false && <span className="text-steel-400"> (inactive)</span>}
                   </td>
                   {fields.map((f) => (
                     <td key={f} className="px-1 py-1">

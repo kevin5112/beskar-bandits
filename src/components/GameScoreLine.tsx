@@ -20,7 +20,7 @@ export default function GameScoreLine({ game }: { game: Game }) {
         <p className="text-xs text-steel-400">{formatGameDay(game.starts_at)} · {formatGameTime(game.starts_at)} · {game.location}</p>
       </div>
       <div className="flex shrink-0 items-center gap-2">
-        {game.status === "final" && game.our_score !== null && (
+        {game.status === "final" && game.our_score !== null && game.their_score !== null && (
           <span className="font-display text-lg font-bold">{game.our_score}–{game.their_score}</span>
         )}
         <ResultBadge game={game} />

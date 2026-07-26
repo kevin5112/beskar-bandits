@@ -9,7 +9,7 @@ export function Section({ title, action, children }: { title: string; action?: {
     <section className="mt-8">
       <div className="flex items-baseline justify-between">
         <h2 className="font-display text-sm font-bold uppercase tracking-[0.2em] text-gold-400">{title}</h2>
-        {action && <Link href={action.href} className="text-xs text-steel-400 hover:text-gold-400">{action.label} →</Link>}
+        {action && <Link href={action.href} className="inline-flex min-h-11 items-center text-xs text-steel-400 hover:text-gold-400">{action.label} →</Link>}
       </div>
       <div className="mt-3">{children}</div>
     </section>

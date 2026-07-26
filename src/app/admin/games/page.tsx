@@ -16,7 +16,7 @@ export default async function AdminGames() {
         {games.map((g) => (
           <Link key={g.id} href={`/admin/games/${g.id}`} className="flex min-h-12 items-center justify-between px-4 py-2 hover:bg-steel-800/50">
             <span>{formatGameDay(g.starts_at)} · {g.home_away === "home" ? "vs" : "@"} {g.opponent}</span>
-            <span className="text-sm text-steel-400">{g.status === "final" ? `${g.our_score}–${g.their_score}` : g.status} · edit →</span>
+            <span className="text-sm text-steel-400">{g.status === "final" ? (g.our_score === null || g.their_score === null ? "—" : `${g.our_score}–${g.their_score}`) : g.status} · edit →</span>
           </Link>
         ))}
       </Card>

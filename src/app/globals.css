@@ -9,6 +9,8 @@
   --color-steel-100: #e8ecf1;
   --color-gold-500: #d4a017;
   --color-gold-400: #e6b833;
+  --color-error-500: #ef4444;
+  --color-error-400: #f87171;
   --font-display: var(--font-chakra);
   --font-body: var(--font-inter);
 }

@@ -1,9 +1,10 @@
 import { setProfileRole } from "@/app/admin/actions";
 import { Card } from "@/components/ui";
 import { btnCls } from "@/components/admin/PlayerForm";
+import type { Profile as FullProfile, Player as FullPlayer } from "@/lib/types";
 
-type Profile = { id: string; display_name: string; role: "admin" | "player" };
-type Player = { id: string; name: string; profile_id: string | null };
+type Profile = Pick<FullProfile, "id" | "display_name" | "role">;
+type Player = Pick<FullPlayer, "id" | "name" | "profile_id">;
 
 export default function AccountsPanel({
   profiles,
@@ -40,7 +41,7 @@ export default function AccountsPanel({
                   {profile.role}
                 </span>
                 <span className="text-xs text-steel-400">
-                  {linkedPlayer ? `→ #${linkedPlayer.name}` : "not linked"}
+                  {linkedPlayer ? `→ ${linkedPlayer.name}` : "not linked"}
                 </span>
               </div>
               {isSelf && profile.role === "admin" ? (

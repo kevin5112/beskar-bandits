@@ -19,9 +19,10 @@ export default async function AdminGameDetail({ params }: { params: Promise<{ id
   const statLines = (lines ?? []) as StatLine[];
   const activeIds = new Set(activePlayers.map((p) => p.id));
   const missingIds = [...new Set(statLines.map((l) => l.player_id).filter((pid) => !activeIds.has(pid)))];
-  const { data: inactivePlayers } = missingIds.length
+  const { data: inactivePlayers, error: inactiveError } = missingIds.length
     ? await supabase.from("players").select("*").in("id", missingIds)
-    : { data: [] as Player[] };
+    : { data: [] as Player[], error: null };
+  if (inactiveError) throw inactiveError;
 
   const byId = new Map([...activePlayers, ...((inactivePlayers ?? []) as Player[])].map((p) => [p.id, p]));
   const boxScorePlayers = [...byId.values()].sort((a, b) => {

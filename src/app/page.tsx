@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { getGames, getLatestFinal, getNewsPosts, getNextGame, getRecentPhotos, getSetting, photoUrl } from "@/lib/queries";
 import { computeTeamRecord } from "@/lib/stats";
 import { formatGameDay, formatGameTime, formatRecord } from "@/lib/format";
@@ -48,7 +49,7 @@ export default async function Home() {
           <div className="grid gap-3 md:grid-cols-3">
             {news.map((p) => (
               <Card key={p.id}>
-                <a href={`/news/${p.slug}`} className="font-medium hover:text-gold-400">{p.title}</a>
+                <Link href={`/news/${p.slug}`} className="inline-flex min-h-11 items-center font-medium hover:text-gold-400">{p.title}</Link>
                 <p className="mt-1 text-xs text-steel-400">{formatGameDay(p.published_at)}</p>
               </Card>
             ))}
