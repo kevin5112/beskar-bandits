@@ -6,10 +6,13 @@ import { Card, EmptyState, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
 import Countdown from "@/components/Countdown";
 import TeaserBanner from "@/components/TeaserBanner";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
 export default async function Home() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const [games, next, latest, news, photos, showTeaser] = await Promise.all([
     getGames(), getNextGame(), getLatestFinal(), getNewsPosts(3), getRecentPhotos(8), getSetting("show_teaser_banner", true),
   ]);

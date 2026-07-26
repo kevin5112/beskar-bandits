@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAlbumForGame, getGame, getGameStatLines } from "@/lib/queries";
+import { getAlbumForGame, getGame, getGameStatLines, getSetting } from "@/lib/queries";
 import { formatGameDay, formatGameTime } from "@/lib/format";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
 import { ResultBadge } from "@/components/GameScoreLine";
 import BoxScoreTable from "@/components/BoxScoreTable";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
@@ -14,6 +15,8 @@ export function generateStaticParams() {
 }
 
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }) {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const { id } = await params;
   const game = await getGame(id);
   if (!game) notFound();

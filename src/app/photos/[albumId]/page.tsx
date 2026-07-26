@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
-import { getAlbum, photoUrl } from "@/lib/queries";
+import { getAlbum, photoUrl, getSetting } from "@/lib/queries";
 import { EmptyState, PageTitle } from "@/components/ui";
 import PhotoGrid from "@/components/PhotoGrid";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
@@ -10,6 +11,8 @@ export function generateStaticParams() {
 }
 
 export default async function AlbumPage({ params }: { params: Promise<{ albumId: string }> }) {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const { albumId } = await params;
   const album = await getAlbum(albumId);
   if (!album) notFound();

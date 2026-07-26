@@ -1,13 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getRoster } from "@/lib/queries";
+import { getRoster, getSetting } from "@/lib/queries";
 import { Card, EmptyState, PageTitle } from "@/components/ui";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Roster" };
 
 export default async function RosterPage() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const players = await getRoster();
   return (
     <div className="pb-10">

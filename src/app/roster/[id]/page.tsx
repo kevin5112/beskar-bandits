@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getPlayer, getPlayerGameLog } from "@/lib/queries";
+import { getPlayer, getPlayerGameLog, getSetting } from "@/lib/queries";
 import { battingAvg, computeSeasonStats } from "@/lib/stats";
 import { formatGameDay } from "@/lib/format";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
@@ -12,6 +13,8 @@ export function generateStaticParams() {
 }
 
 export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const { id } = await params;
   const player = await getPlayer(id);
   if (!player) notFound();

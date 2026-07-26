@@ -1,13 +1,16 @@
-import { getGamesWithVideos } from "@/lib/queries";
+import { getGamesWithVideos, getSetting } from "@/lib/queries";
 import { EmptyState, PageTitle, Section } from "@/components/ui";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { formatGameDay } from "@/lib/format";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Highlights" };
 
 export default async function HighlightsPage() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const games = await getGamesWithVideos();
   return (
     <div className="pb-10">

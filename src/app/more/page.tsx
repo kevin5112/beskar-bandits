@@ -1,11 +1,15 @@
 import Link from "next/link";
+import { getSetting } from "@/lib/queries";
 import AdminLink from "@/components/AdminLink";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 const items = [
   ["/roster", "Roster"], ["/news", "News"], ["/highlights", "Highlights"], ["/login", "Admin sign in"],
 ] as const;
 
-export default function MorePage() {
+export default async function MorePage() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   return (
     <div className="py-6">
       <h1 className="font-display text-2xl font-bold uppercase tracking-wider">More</h1>

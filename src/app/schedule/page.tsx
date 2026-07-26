@@ -1,12 +1,15 @@
-import { getGames } from "@/lib/queries";
+import { getGames, getSetting } from "@/lib/queries";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Schedule" };
 
 export default async function SchedulePage() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const games = await getGames();
   const upcoming = games.filter((g) => g.status === "upcoming");
   const played = games.filter((g) => g.status !== "upcoming").reverse();

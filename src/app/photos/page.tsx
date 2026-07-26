@@ -1,13 +1,16 @@
 import Link from "next/link";
-import { getAlbums } from "@/lib/queries";
+import { getAlbums, getSetting } from "@/lib/queries";
 import { Card, EmptyState, PageTitle } from "@/components/ui";
 import { formatGameDay } from "@/lib/format";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Photos" };
 
 export default async function PhotosPage() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const albums = await getAlbums();
   return (
     <div className="pb-10">

@@ -1,14 +1,17 @@
-import { getGames, getSeasonStatLineInputs } from "@/lib/queries";
+import { getGames, getSeasonStatLineInputs, getSetting } from "@/lib/queries";
 import { computeSeasonStats, computeTeamRecord } from "@/lib/stats";
 import { formatRecord } from "@/lib/format";
 import { EmptyState, PageTitle } from "@/components/ui";
 import StatsTable from "@/components/StatsTable";
+import PreLaunchSplash from "@/components/PreLaunchSplash";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Stats" };
 
 export default async function StatsPage() {
+  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+
   const [inputs, games] = await Promise.all([getSeasonStatLineInputs(), getGames()]);
   const rows = computeSeasonStats(inputs);
   const { w, l, t } = computeTeamRecord(games);
