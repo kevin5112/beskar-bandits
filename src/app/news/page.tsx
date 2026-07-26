@@ -2,18 +2,17 @@ import Link from "next/link";
 import { getNewsPosts, getSetting } from "@/lib/queries";
 import { Card, EmptyState, PageTitle } from "@/components/ui";
 import { formatGameDay } from "@/lib/format";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
 export const metadata = { title: "News" };
 
 export default async function NewsPage() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
-  const posts = await getNewsPosts();
+  const [posts, prelaunch] = await Promise.all([getNewsPosts(), getSetting("prelaunch_mode", false)]);
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>News</PageTitle>
       <div className="mt-4 space-y-3">
         {posts.length ? posts.map((p) => (

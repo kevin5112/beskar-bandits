@@ -1,23 +1,23 @@
 import { getGames, getSetting } from "@/lib/queries";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Schedule" };
 
 export default async function SchedulePage() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
+  const prelaunch = await getSetting("prelaunch_mode", false);
   const games = await getGames();
   const upcoming = games.filter((g) => g.status === "upcoming");
   const played = games.filter((g) => g.status !== "upcoming").reverse();
 
-  if (!games.length) return (<div><PageTitle>Schedule</PageTitle><div className="mt-4"><EmptyState message="No games scheduled yet — season starts soon." /></div></div>);
+  if (!games.length) return (<div>{prelaunch && <PreLaunchOverlay />}<PageTitle>Schedule</PageTitle><div className="mt-4"><EmptyState message="No games scheduled yet — season starts soon." /></div></div>);
 
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>Schedule</PageTitle>
       <Section title="Upcoming">
         {upcoming.length ? (

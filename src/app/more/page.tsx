@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { getSetting } from "@/lib/queries";
 import AdminLink from "@/components/AdminLink";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 const items = [
   ["/roster", "Roster"], ["/news", "News"], ["/highlights", "Highlights"], ["/login", "Admin sign in"],
 ] as const;
 
 export default async function MorePage() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
+  const prelaunch = await getSetting("prelaunch_mode", false);
 
   return (
     <div className="py-6">
+      {prelaunch && <PreLaunchOverlay />}
       <h1 className="font-display text-2xl font-bold uppercase tracking-wider">More</h1>
       <ul className="mt-4 divide-y divide-steel-700 rounded-lg border border-steel-700 bg-steel-900">
         {items.map(([href, label]) => (

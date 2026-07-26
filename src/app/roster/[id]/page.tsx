@@ -4,7 +4,7 @@ import { getPlayer, getPlayerGameLog, getSetting } from "@/lib/queries";
 import { battingAvg, computeSeasonStats } from "@/lib/stats";
 import { formatGameDay } from "@/lib/format";
 import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
@@ -13,10 +13,8 @@ export function generateStaticParams() {
 }
 
 export default async function PlayerPage({ params }: { params: Promise<{ id: string }> }) {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
   const { id } = await params;
-  const player = await getPlayer(id);
+  const [player, prelaunch] = await Promise.all([getPlayer(id), getSetting("prelaunch_mode", false)]);
   if (!player) notFound();
   const log = await getPlayerGameLog(id);
   const season = computeSeasonStats(log.map((l) => ({
@@ -26,6 +24,7 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
 
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>#{player.jersey_number ?? "–"} {player.name}</PageTitle>
       <p className="mt-1 text-sm text-steel-400">{player.positions.join(" / ") || "Utility"}</p>
       {player.bio && <p className="mt-2 text-sm">{player.bio}</p>}

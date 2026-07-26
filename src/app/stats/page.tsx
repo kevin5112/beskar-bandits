@@ -3,21 +3,20 @@ import { computeSeasonStats, computeTeamRecord } from "@/lib/stats";
 import { formatRecord } from "@/lib/format";
 import { EmptyState, PageTitle } from "@/components/ui";
 import StatsTable from "@/components/StatsTable";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Stats" };
 
 export default async function StatsPage() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
-  const [inputs, games] = await Promise.all([getSeasonStatLineInputs(), getGames()]);
+  const [inputs, games, prelaunch] = await Promise.all([getSeasonStatLineInputs(), getGames(), getSetting("prelaunch_mode", false)]);
   const rows = computeSeasonStats(inputs);
   const { w, l, t } = computeTeamRecord(games);
 
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>Season Stats</PageTitle>
       <p className="mt-1 font-display text-sm uppercase tracking-widest text-steel-400">Team record: {formatRecord(w, l, t)}</p>
       <div className="mt-4">

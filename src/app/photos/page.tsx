@@ -2,18 +2,17 @@ import Link from "next/link";
 import { getAlbums, getSetting } from "@/lib/queries";
 import { Card, EmptyState, PageTitle } from "@/components/ui";
 import { formatGameDay } from "@/lib/format";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Photos" };
 
 export default async function PhotosPage() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
-  const albums = await getAlbums();
+  const [albums, prelaunch] = await Promise.all([getAlbums(), getSetting("prelaunch_mode", false)]);
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>Photos</PageTitle>
       <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
         {albums.length ? albums.map((a) => (

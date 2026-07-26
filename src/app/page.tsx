@@ -6,20 +6,19 @@ import { Card, EmptyState, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
 import Countdown from "@/components/Countdown";
 import TeaserBanner from "@/components/TeaserBanner";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
 export default async function Home() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
-  const [games, next, latest, news, photos, showTeaser] = await Promise.all([
-    getGames(), getNextGame(), getLatestFinal(), getNewsPosts(3), getRecentPhotos(8), getSetting("show_teaser_banner", true),
+  const [games, next, latest, news, photos, showTeaser, prelaunch] = await Promise.all([
+    getGames(), getNextGame(), getLatestFinal(), getNewsPosts(3), getRecentPhotos(8), getSetting("show_teaser_banner", true), getSetting("prelaunch_mode", false),
   ]);
   const { w, l, t } = computeTeamRecord(games);
 
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <div className="mt-8 text-center">
         <p className="font-display text-xs uppercase tracking-[0.35em] text-steel-400">Coed Softball</p>
         <h1 className="mt-1 font-display text-4xl font-bold uppercase tracking-widest text-gold-400 md:text-5xl">Beskar Bandits</h1>

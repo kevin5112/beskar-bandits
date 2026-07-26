@@ -6,7 +6,7 @@ import { Card, EmptyState, PageTitle, Section } from "@/components/ui";
 import { ResultBadge } from "@/components/GameScoreLine";
 import BoxScoreTable from "@/components/BoxScoreTable";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
@@ -15,15 +15,14 @@ export function generateStaticParams() {
 }
 
 export default async function GamePage({ params }: { params: Promise<{ id: string }> }) {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
   const { id } = await params;
-  const game = await getGame(id);
+  const [game, prelaunch] = await Promise.all([getGame(id), getSetting("prelaunch_mode", false)]);
   if (!game) notFound();
   const [lines, album] = await Promise.all([getGameStatLines(id), getAlbumForGame(id)]);
 
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>{game.home_away === "home" ? "vs" : "@"} {game.opponent}</PageTitle>
       <p className="mt-1 text-sm text-steel-400">{formatGameDay(game.starts_at)} · {formatGameTime(game.starts_at)} · {game.location}</p>
 

@@ -2,18 +2,17 @@ import { getGamesWithVideos, getSetting } from "@/lib/queries";
 import { EmptyState, PageTitle, Section } from "@/components/ui";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { formatGameDay } from "@/lib/format";
-import PreLaunchSplash from "@/components/PreLaunchSplash";
+import PreLaunchOverlay from "@/components/PreLaunchOverlay";
 
 export const revalidate = 60;
 
 export const metadata = { title: "Highlights" };
 
 export default async function HighlightsPage() {
-  if (await getSetting("prelaunch_mode", false)) return <PreLaunchSplash />;
-
-  const games = await getGamesWithVideos();
+  const [games, prelaunch] = await Promise.all([getGamesWithVideos(), getSetting("prelaunch_mode", false)]);
   return (
     <div className="pb-10">
+      {prelaunch && <PreLaunchOverlay />}
       <PageTitle>Highlights</PageTitle>
       {games.length ? games.map((g) => (
         <Section key={g.id} title={`${g.home_away === "home" ? "vs" : "@"} ${g.opponent} · ${formatGameDay(g.starts_at)}`}>
