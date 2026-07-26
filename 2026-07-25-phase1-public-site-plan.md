@@ -1420,7 +1420,7 @@ const cols = ["AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "K", "AVG"] as cons
 
 export default function BoxScoreTable({ lines }: { lines: Line[] }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-steel-700">
+    <div className="overflow-x-auto rounded-lg border border-steel-700 bg-steel-900">
       <table className="w-full min-w-[560px] text-sm">
         <thead className="bg-steel-800 font-display text-xs uppercase tracking-wider text-steel-400">
           <tr>
@@ -1572,7 +1572,7 @@ export default function StatsTable({ rows }: { rows: SeasonStatRow[] }) {
     [rows, sort]
   );
   return (
-    <div className="overflow-x-auto rounded-lg border border-steel-700">
+    <div className="overflow-x-auto rounded-lg border border-steel-700 bg-steel-900">
       <table className="w-full min-w-[640px] text-sm">
         <thead className="bg-steel-800 font-display text-xs uppercase tracking-wider text-steel-400">
           <tr>
@@ -1720,7 +1720,7 @@ export default async function PlayerPage({ params }: { params: Promise<{ id: str
 
       <Section title="Game Log">
         {log.length ? (
-          <div className="overflow-x-auto rounded-lg border border-steel-700">
+          <div className="overflow-x-auto rounded-lg border border-steel-700 bg-steel-900">
             <table className="w-full min-w-[560px] text-sm">
               <thead className="bg-steel-800 font-display text-xs uppercase tracking-wider text-steel-400">
                 <tr>
@@ -2179,7 +2179,7 @@ export default function BoxScoreForm({ gameId, players, lines, ourScore, theirSc
         <div><label className={labelCls}>Our score</label><input name="our_score" type="number" inputMode="numeric" defaultValue={ourScore ?? ""} className={cell + " w-16"} /></div>
         <div><label className={labelCls}>Their score</label><input name="their_score" type="number" inputMode="numeric" defaultValue={theirScore ?? ""} className={cell + " w-16"} /></div>
       </div>
-      <div className="mt-4 overflow-x-auto rounded-lg border border-steel-700">
+      <div className="mt-4 overflow-x-auto rounded-lg border border-steel-700 bg-steel-900">
         <table className="text-sm">
           <thead className="bg-steel-800 font-display text-xs uppercase text-steel-400">
             <tr><th className="sticky left-0 bg-steel-800 px-3 py-2 text-left">Player</th>{headers.map((h) => <th key={h} className="px-1 py-2">{h}</th>)}</tr>

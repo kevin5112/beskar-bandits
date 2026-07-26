@@ -6,7 +6,7 @@ const cols = ["AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "K", "AVG"] as cons
 
 export default function BoxScoreTable({ lines }: { lines: Line[] }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-steel-700">
+    <div className="overflow-x-auto rounded-lg border border-steel-700 bg-steel-900">
       <table className="w-full min-w-[560px] text-sm">
         <thead className="bg-steel-800 font-display text-xs uppercase tracking-wider text-steel-400">
           <tr>
