@@ -11,6 +11,7 @@ describe("battingAvg", () => {
   it("formats perfect", () => expect(battingAvg(3, 3)).toBe("1.000"));
   it("dashes zero at-bats", () => expect(battingAvg(0, 0)).toBe("—"));
   it("rounds to 3 places", () => expect(battingAvg(1, 3)).toBe(".333"));
+  it("rounds a non-trivial repeating decimal", () => expect(battingAvg(2, 7)).toBe(".286"));
 });
 
 describe("computeSeasonStats", () => {
@@ -34,6 +35,28 @@ describe("computeSeasonStats", () => {
     ]);
     expect(rows.map((r) => r.player_id)).toEqual(["b", "a", "c"]);
   });
+  it("breaks equal-avg ties by higher hits", () => {
+    const rows = computeSeasonStats([
+      line({ player_id: "p1", player_name: "P1", ab: 4, h: 2 }),
+      line({ player_id: "p2", player_name: "P2", ab: 8, h: 4 }),
+    ]);
+    expect(rows[0].avg).toBe(rows[1].avg);
+    expect(rows.map((r) => r.player_id)).toEqual(["p2", "p1"]);
+  });
+  it("sums every field across games without transposing accumulators", () => {
+    const rows = computeSeasonStats([
+      line({ r: 1, doubles: 1, triples: 0, hr: 2, rbi: 3, bb: 1, k: 0 }),
+      line({ r: 2, doubles: 0, triples: 1, hr: 1, rbi: 1, bb: 1, k: 2 }),
+    ]);
+    const p1 = rows.find((r) => r.player_id === "p1")!;
+    expect(p1.r).toBe(3);
+    expect(p1.doubles).toBe(1);
+    expect(p1.triples).toBe(1);
+    expect(p1.hr).toBe(3);
+    expect(p1.rbi).toBe(4);
+    expect(p1.bb).toBe(2);
+    expect(p1.k).toBe(2);
+  });
 });
 
 describe("computeTeamRecord", () => {
@@ -45,5 +68,12 @@ describe("computeTeamRecord", () => {
       { status: "upcoming", our_score: null, their_score: null },
       { status: "canceled", our_score: null, their_score: null },
     ])).toEqual({ w: 1, l: 1, t: 1 });
+  });
+  it("ignores finals with null scores", () => {
+    expect(computeTeamRecord([
+      { status: "final", our_score: 10, their_score: 5 },
+      { status: "final", our_score: 4, their_score: 9 },
+      { status: "final", our_score: null, their_score: null },
+    ])).toEqual({ w: 1, l: 1, t: 0 });
   });
 });
