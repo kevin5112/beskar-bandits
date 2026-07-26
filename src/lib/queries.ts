@@ -120,3 +120,10 @@ export async function getAlbumForGame(gameId: string): Promise<Album | null> {
   if (error) throw error;
   return data;
 }
+
+export async function getSetting(key: string, fallback: boolean): Promise<boolean> {
+  // Missing table must never take down the home page — return fallback on any error
+  const { data, error } = await db().from("site_settings").select("value").eq("key", key).maybeSingle();
+  if (error) return fallback;
+  return data?.value ?? fallback;
+}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getGames, getLatestFinal, getNewsPosts, getNextGame, getRecentPhotos, photoUrl } from "@/lib/queries";
+import { getGames, getLatestFinal, getNewsPosts, getNextGame, getRecentPhotos, getSetting, photoUrl } from "@/lib/queries";
 import { computeTeamRecord } from "@/lib/stats";
 import { formatGameDay, formatGameTime, formatRecord } from "@/lib/format";
 import { Card, EmptyState, Section } from "@/components/ui";
@@ -10,8 +10,8 @@ import TeaserBanner from "@/components/TeaserBanner";
 export const revalidate = 60;
 
 export default async function Home() {
-  const [games, next, latest, news, photos] = await Promise.all([
-    getGames(), getNextGame(), getLatestFinal(), getNewsPosts(3), getRecentPhotos(8),
+  const [games, next, latest, news, photos, showTeaser] = await Promise.all([
+    getGames(), getNextGame(), getLatestFinal(), getNewsPosts(3), getRecentPhotos(8), getSetting("show_teaser_banner", true),
   ]);
   const { w, l, t } = computeTeamRecord(games);
 
@@ -23,7 +23,7 @@ export default async function Home() {
         <p className="mt-2 font-display text-sm uppercase tracking-widest text-steel-100">{formatRecord(w, l, t)} this season</p>
       </div>
 
-      <TeaserBanner />
+      {showTeaser && <TeaserBanner />}
 
       <Section title="Next Game" action={{ href: "/schedule", label: "Full schedule" }}>
         {next ? (
