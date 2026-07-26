@@ -30,7 +30,7 @@ export async function savePlayer(formData: FormData) {
     throw error;
   }
   revalidatePath("/", "layout");
-  redirect("/admin/players");
+  redirect("/admin/players?saved=1");
 }
 
 export async function saveGame(formData: FormData) {
@@ -51,7 +51,7 @@ export async function saveGame(formData: FormData) {
     : await supabase.from("games").insert(row);
   if (error) throw error;
   revalidatePath("/", "layout");
-  redirect("/admin/games");
+  redirect("/admin/games?saved=1");
 }
 
 export async function saveBoxScore(formData: FormData) {
@@ -84,7 +84,7 @@ export async function saveBoxScore(formData: FormData) {
     if (error) throw error;
   }
   revalidatePath("/", "layout");
-  redirect(`/admin/games/${gameId}`);
+  redirect(`/admin/games/${gameId}?saved=1`);
 }
 
 export async function saveNewsPost(formData: FormData) {
@@ -106,7 +106,7 @@ export async function saveNewsPost(formData: FormData) {
   }
   if (error) throw error;
   revalidatePath("/", "layout");
-  redirect("/admin/news");
+  redirect("/admin/news?saved=1");
 }
 
 export async function saveAlbum(formData: FormData) {
@@ -115,7 +115,7 @@ export async function saveAlbum(formData: FormData) {
   const { error } = await supabase.from("albums").insert({ title: str(formData, "title"), game_id: gameId || null });
   if (error) throw error;
   revalidatePath("/", "layout");
-  redirect("/admin/photos");
+  redirect("/admin/photos?saved=1");
 }
 
 export async function deleteAlbum(formData: FormData) {
@@ -141,6 +141,7 @@ export async function deletePhoto(formData: FormData) {
   const { error: storageError } = await supabase.storage.from("photos").remove([path]);
   if (storageError) console.error("Photo storage cleanup failed:", storageError);
   revalidatePath("/", "layout");
+  redirect("/admin/photos?deleted=1");
 }
 
 export async function setProfileRole(formData: FormData) {
@@ -154,7 +155,7 @@ export async function setProfileRole(formData: FormData) {
   const { error } = await supabase.from("profiles").update({ role }).eq("id", profileId);
   if (error) throw error;
   revalidatePath("/", "layout");
-  redirect("/admin/players");
+  redirect("/admin/players?saved=1");
 }
 
 export async function refreshPublicContent() {

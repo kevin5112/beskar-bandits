@@ -43,7 +43,7 @@ function LoginForm() {
         className="min-h-11 w-full rounded border border-steel-700 bg-steel-900 px-3 text-steel-100" />
       <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password"
         className="min-h-11 w-full rounded border border-steel-700 bg-steel-900 px-3 text-steel-100" />
-      <button disabled={busy} className="min-h-11 w-full rounded bg-gold-500 font-display font-bold uppercase tracking-wider text-steel-950 disabled:opacity-50">
+      <button disabled={busy} className={`min-h-11 w-full rounded bg-gold-500 font-display font-bold uppercase tracking-wider text-steel-950 transition active:translate-y-px disabled:opacity-50 ${busy ? "molten-pending" : ""}`}>
         {busy ? "Signing in…" : "Sign in"}
       </button>
     </form>

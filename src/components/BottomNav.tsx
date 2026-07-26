@@ -14,7 +14,7 @@ export default function BottomNav() {
         const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
         return (
           <Link key={href} href={href}
-            className={`flex min-h-14 flex-col items-center justify-center text-xs font-display uppercase tracking-wide ${active ? "text-gold-400" : "text-steel-400"}`}>
+            className={`flex min-h-14 flex-col items-center justify-center text-xs font-display uppercase tracking-wide transition-colors active:text-gold-400 ${active ? "text-gold-400" : "text-steel-400"}`}>
             {label}
           </Link>
         );

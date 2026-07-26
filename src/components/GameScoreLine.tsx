@@ -11,7 +11,7 @@ export function ResultBadge({ game }: { game: Game }) {
 
 export default function GameScoreLine({ game }: { game: Game }) {
   return (
-    <Link href={`/games/${game.id}`} className="flex min-h-14 items-center justify-between gap-3 px-1 py-2 hover:bg-steel-800/50">
+    <Link href={`/games/${game.id}`} className="flex min-h-14 items-center justify-between gap-3 px-1 py-2 transition-colors hover:bg-steel-800/50 active:bg-steel-800">
       <div className="min-w-0">
         <p className="truncate font-medium">
           {game.home_away === "home" ? "vs" : "@"} {game.opponent}

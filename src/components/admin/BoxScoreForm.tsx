@@ -1,6 +1,7 @@
 import type { Player, StatLine } from "@/lib/types";
 import { saveBoxScore } from "@/app/admin/actions";
-import { btnCls, labelCls } from "./PlayerForm";
+import { labelCls } from "./PlayerForm";
+import SubmitButton from "./SubmitButton";
 
 const fields = ["ab", "r", "h", "doubles", "triples", "hr", "rbi", "bb", "k"] as const;
 const headers = ["AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "K"];
@@ -45,7 +46,7 @@ export default function BoxScoreForm({ gameId, players, lines, ourScore, theirSc
         </table>
       </div>
       <p className="mt-2 text-xs text-steel-400">Leave a player's whole row blank if they didn't play. Filling any score marks the game Final.</p>
-      <button className={btnCls + " mt-3"}>Save box score</button>
+      <SubmitButton className="mt-3">Save box score</SubmitButton>
     </form>
   );
 }

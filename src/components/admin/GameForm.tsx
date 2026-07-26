@@ -1,6 +1,7 @@
 import type { Game } from "@/lib/types";
 import { saveGame } from "@/app/admin/actions";
-import { inputCls, labelCls, btnCls } from "./PlayerForm";
+import { inputCls, labelCls } from "./PlayerForm";
+import SubmitButton from "./SubmitButton";
 
 function easternParts(iso?: string) {
   if (!iso) return { date: "", time: "" };
@@ -37,7 +38,7 @@ export default function GameForm({ game }: { game?: Game }) {
         <label className={labelCls}>YouTube links (one per line)</label>
         <textarea name="youtube_urls" rows={2} defaultValue={game?.youtube_video_ids.join("\n")} className={inputCls + " py-2"} />
       </div>
-      <div className="md:col-span-2"><button className={btnCls}>{game ? "Save game" : "Add game"}</button></div>
+      <div className="md:col-span-2"><SubmitButton>{game ? "Save game" : "Add game"}</SubmitButton></div>
     </form>
   );
 }

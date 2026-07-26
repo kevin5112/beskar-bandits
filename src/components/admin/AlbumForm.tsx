@@ -1,7 +1,8 @@
 import type { Game } from "@/lib/types";
 import { saveAlbum } from "@/app/admin/actions";
 import { formatGameDay } from "@/lib/format";
-import { inputCls, labelCls, btnCls } from "./PlayerForm";
+import { inputCls, labelCls } from "./PlayerForm";
+import SubmitButton from "./SubmitButton";
 
 export default function AlbumForm({ games }: { games: Game[] }) {
   return (
@@ -14,7 +15,7 @@ export default function AlbumForm({ games }: { games: Game[] }) {
           {games.map((g) => <option key={g.id} value={g.id}>{formatGameDay(g.starts_at)} · {g.opponent}</option>)}
         </select>
       </div>
-      <div className="md:col-span-2"><button className={btnCls}>Create album</button></div>
+      <div className="md:col-span-2"><SubmitButton>Create album</SubmitButton></div>
     </form>
   );
 }

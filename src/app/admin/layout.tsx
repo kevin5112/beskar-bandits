@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/supabase/server";
 import SignOutButton from "@/components/admin/SignOutButton";
+import ActionToast from "@/components/admin/ActionToast";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   await requireAdmin();
@@ -17,6 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         ))}
       </nav>
       <div className="mt-4">{children}</div>
+      <ActionToast />
     </div>
   );
 }

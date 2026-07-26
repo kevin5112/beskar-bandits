@@ -24,7 +24,7 @@ export default function StatsTable({ rows }: { rows: SeasonStatRow[] }) {
             {cols.map(([key, label]) => (
               <th key={key} className="px-1 py-1 text-right">
                 <button onClick={() => setSort(key)}
-                  className={`min-h-11 min-w-9 px-1 ${sort === key ? "text-gold-400" : ""}`}>
+                  className={`min-h-11 min-w-9 px-1 transition-colors ${sort === key ? "text-gold-400" : ""}`}>
                   {label}
                 </button>
               </th>

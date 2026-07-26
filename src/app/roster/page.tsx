@@ -18,7 +18,7 @@ export default async function RosterPage() {
         <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
           {players.map((p) => (
             <Link key={p.id} href={`/roster/${p.id}`}>
-              <Card className="text-center hover:border-gold-500">
+              <Card className="text-center transition-colors hover:border-gold-500 active:border-gold-500">
                 <div className="relative mx-auto h-20 w-20 overflow-hidden rounded-full border border-steel-700 bg-steel-800">
                   {p.photo_url ? (
                     <Image src={p.photo_url} alt={p.name} fill sizes="80px" className="object-cover" />
