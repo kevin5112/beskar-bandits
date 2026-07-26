@@ -5,6 +5,10 @@ import PhotoGrid from "@/components/PhotoGrid";
 
 export const revalidate = 60;
 
+export function generateStaticParams() {
+  return [];
+}
+
 export default async function AlbumPage({ params }: { params: Promise<{ albumId: string }> }) {
   const { albumId } = await params;
   const album = await getAlbum(albumId);

@@ -6,6 +6,10 @@ import { formatGameDay } from "@/lib/format";
 
 export const revalidate = 60;
 
+export function generateStaticParams() {
+  return [];
+}
+
 export default async function NewsPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await getNewsPost(slug);
