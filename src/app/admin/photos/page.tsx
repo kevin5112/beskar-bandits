@@ -21,6 +21,9 @@ export default async function AdminPhotos() {
   });
   return (
     <div className="space-y-6">
+      <p className="text-xs text-steel-400">
+        Photo rules: field and dugout shots only — no backstage areas or costumed cast members. Everything uploaded here is publicly visible.
+      </p>
       <Card><h2 className="mb-3 font-display font-bold uppercase tracking-wider">New album</h2><AlbumForm games={(games ?? []) as Game[]} /></Card>
       {((albums ?? []) as Album[]).map((a) => (
         <Card key={a.id}>

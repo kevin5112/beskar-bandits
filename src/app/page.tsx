@@ -5,6 +5,7 @@ import { formatGameDay, formatGameTime, formatRecord } from "@/lib/format";
 import { Card, EmptyState, Section } from "@/components/ui";
 import GameScoreLine from "@/components/GameScoreLine";
 import Countdown from "@/components/Countdown";
+import TeaserBanner from "@/components/TeaserBanner";
 
 export const revalidate = 60;
 
@@ -21,6 +22,8 @@ export default async function Home() {
         <h1 className="mt-1 font-display text-4xl font-bold uppercase tracking-widest text-gold-400 md:text-5xl">Beskar Bandits</h1>
         <p className="mt-2 font-display text-sm uppercase tracking-widest text-steel-100">{formatRecord(w, l, t)} this season</p>
       </div>
+
+      <TeaserBanner />
 
       <Section title="Next Game" action={{ href: "/schedule", label: "Full schedule" }}>
         {next ? (
