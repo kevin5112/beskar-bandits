@@ -112,6 +112,20 @@ export async function saveAlbum(formData: FormData) {
   redirect("/admin/photos");
 }
 
+export async function deleteAlbum(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const id = str(formData, "id");
+  const { data: photos, error: listError } = await supabase.from("photos").select("storage_path").eq("album_id", id);
+  if (listError) throw listError;
+  if (photos.length > 0) {
+    const { error: storageError } = await supabase.storage.from("photos").remove(photos.map((p) => p.storage_path));
+    if (storageError) throw storageError;
+  }
+  const { error } = await supabase.from("albums").delete().eq("id", id);
+  if (error) throw error;
+  revalidatePath("/", "layout");
+}
+
 export async function deletePhoto(formData: FormData) {
   const { supabase } = await requireAdmin();
   const id = str(formData, "id");

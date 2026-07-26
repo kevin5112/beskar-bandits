@@ -5,6 +5,7 @@ import { photoUrl } from "@/lib/queries";
 import { deletePhoto } from "@/app/admin/actions";
 import AlbumForm from "@/components/admin/AlbumForm";
 import PhotoUploader from "@/components/admin/PhotoUploader";
+import DeleteAlbumButton from "@/components/admin/DeleteAlbumButton";
 import { Card } from "@/components/ui";
 
 export default async function AdminPhotos() {
@@ -23,7 +24,10 @@ export default async function AdminPhotos() {
       <Card><h2 className="mb-3 font-display font-bold uppercase tracking-wider">New album</h2><AlbumForm games={(games ?? []) as Game[]} /></Card>
       {((albums ?? []) as Album[]).map((a) => (
         <Card key={a.id}>
-          <h3 className="mb-3 font-display text-sm text-steel-400">{a.title}</h3>
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="font-display text-sm text-steel-400">{a.title}</h3>
+            <DeleteAlbumButton albumId={a.id} title={a.title} photoCount={(photosByAlbum.get(a.id) ?? []).length} />
+          </div>
           <PhotoUploader albumId={a.id} />
           <div className="mt-3 grid grid-cols-4 gap-2 md:grid-cols-6">
             {(photosByAlbum.get(a.id) ?? []).map((p) => (
