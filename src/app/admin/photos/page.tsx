@@ -31,7 +31,7 @@ export default async function AdminPhotos() {
                 <input type="hidden" name="id" value={p.id} />
                 <input type="hidden" name="storage_path" value={p.storage_path} />
                 <Image src={photoUrl(p.storage_path)} alt="" fill sizes="20vw" className="rounded object-cover" />
-                <button className="absolute right-1 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-steel-950/80 text-xs text-steel-100" aria-label="Delete photo">✕</button>
+                <button className="absolute right-1 top-1 flex h-11 w-11 items-center justify-center rounded-full bg-steel-950/80 text-xs text-steel-100" aria-label="Delete photo">✕</button>
               </form>
             ))}
           </div>

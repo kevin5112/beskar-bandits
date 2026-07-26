@@ -85,11 +85,19 @@ export async function saveNewsPost(formData: FormData) {
   const { supabase, user } = await requireAdmin();
   const id = str(formData, "id");
   const title = str(formData, "title");
-  const slug = (str(formData, "slug") || title).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  let slug = (str(formData, "slug") || title).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  if (slug === "") slug = `post-${crypto.randomUUID().slice(0, 8)}`;
   const row = { title, slug, body: str(formData, "body"), author_profile_id: user.id };
-  const { error } = id
+  let { error } = id
     ? await supabase.from("news_posts").update(row).eq("id", id)
     : await supabase.from("news_posts").insert(row);
+  if (error && (error as { code?: string }).code === "23505") {
+    const retrySlug = `${slug}-${crypto.randomUUID().slice(0, 4)}`;
+    const retryRow = { ...row, slug: retrySlug };
+    ({ error } = id
+      ? await supabase.from("news_posts").update(retryRow).eq("id", id)
+      : await supabase.from("news_posts").insert(retryRow));
+  }
   if (error) throw error;
   revalidatePath("/", "layout");
   redirect("/admin/news");

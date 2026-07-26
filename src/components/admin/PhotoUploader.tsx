@@ -14,12 +14,18 @@ export default function PhotoUploader({ albumId }: { albumId: string }) {
     const supabase = createClient();
     for (let i = 0; i < files.length; i++) {
       setStatus(`Uploading ${i + 1} of ${files.length}…`);
-      const compressed = await imageCompression(files[i], { maxSizeMB: 0.5, maxWidthOrHeight: 1600, useWebWorker: true });
-      const path = `${albumId}/${crypto.randomUUID()}.jpg`;
-      const { error: upErr } = await supabase.storage.from("photos").upload(path, compressed, { contentType: "image/jpeg" });
-      if (upErr) { setStatus(`Upload failed: ${upErr.message}`); return; }
-      const { error: dbErr } = await supabase.from("photos").insert({ album_id: albumId, storage_path: path });
-      if (dbErr) { setStatus(`Save failed: ${dbErr.message}`); return; }
+      try {
+        const compressed = await imageCompression(files[i], { maxSizeMB: 0.5, maxWidthOrHeight: 1600, useWebWorker: true });
+        const path = `${albumId}/${crypto.randomUUID()}.jpg`;
+        const { error: upErr } = await supabase.storage.from("photos").upload(path, compressed, { contentType: "image/jpeg" });
+        if (upErr) { setStatus(`Upload failed: ${upErr.message}`); return; }
+        const { error: dbErr } = await supabase.from("photos").insert({ album_id: albumId, storage_path: path });
+        if (dbErr) { setStatus(`Save failed: ${dbErr.message}`); return; }
+      } catch (e) {
+        const message = e instanceof Error ? e.message : String(e);
+        setStatus(`Failed on photo ${i + 1} of ${files.length}: ${message}`);
+        return;
+      }
     }
     setStatus("Done!");
     if (fileRef.current) fileRef.current.value = "";
